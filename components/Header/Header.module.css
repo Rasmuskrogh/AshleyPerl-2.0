@@ -1,0 +1,86 @@
+.mainHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  background-color: transparent;
+  margin: 0 4% 2% 4%;
+  height: 5.4rem;
+}
+
+.headerList {
+  display: flex;
+  width: 20rem;
+  justify-content: space-between;
+}
+
+.headerLinks {
+  list-style-type: none;
+}
+
+.mainHeader a {
+  text-decoration: none;
+  color: black;
+}
+
+.mainHeader a:hover {
+  color: #088f8f;
+}
+
+.hamburger {
+  display: none;
+}
+
+@media screen and (max-width: 650px) {
+  .hamburger {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    z-index: 3;
+  }
+
+  .headerList {
+    display: none;
+    position: fixed;
+    background-color: white;
+    color: black;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    left: 0;
+    opacity: 0;
+    margin-top: 0.8rem;
+    animation: hamburgerClosed 0.5;
+  }
+
+  .headerList.open {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 2rem;
+    font-size: 24px;
+    padding: 0;
+    opacity: 1;
+    animation: hamburgerOpen 0.5s;
+  }
+
+  @keyframes hamburgerOpen {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+@media (width < 650px) {
+  .mainHeaderBurger {
+    background-color: white;
+    width: 100%;
+    z-index: 2;
+    position: fixed;
+  }
+}

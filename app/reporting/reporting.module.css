@@ -1,0 +1,83 @@
+.reportingWrapper {
+  padding: 0 1rem;
+}
+
+.reportingHeaderSection {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.reportingHeaderSection h1 {
+  font-size: 50px;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.reportingHeaderSection h2 {
+  font-size: 19px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.cardSection {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.card {
+  border: white 2px solid;
+}
+
+.card:hover {
+  border: black 2px solid;
+}
+
+.figure {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card img {
+  object-fit: cover;
+  width: 100%;
+  aspect-ratio: 1.6 / 1;
+  margin-left: auto;
+  display: block;
+}
+
+.card a {
+  text-decoration: none;
+  color: black;
+}
+
+.informationWrapper {
+  padding: 1rem;
+  flex: 3;
+}
+
+.publicationDate {
+  margin: 0;
+  color: grey;
+  line-height: 1.5;
+}
+
+@media (width < 1000px) {
+  .cardSection {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (width < 700px) {
+  .cardSection {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (width < 500px) {
+  .cardSection {
+    grid-template-columns: 1fr;
+  }
+}

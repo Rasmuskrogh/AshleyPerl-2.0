@@ -1,0 +1,29 @@
+.contact {
+  padding: 0 10% 0 10%;
+}
+
+.contactHeader {
+  text-align: center;
+  line-height: 0px;
+  font-size: 50px;
+  margin-bottom: 6rem;
+}
+
+.contactParagraph {
+  font-size: 19px;
+  margin: 1.5rem 0;
+}
+
+.contactInformation {
+  margin: 0;
+  font-size: 19px;
+}
+
+.contactInformation a {
+  text-decoration: none;
+  color: black;
+}
+
+.contactInformation a:hover {
+  color: #088f8f;
+}

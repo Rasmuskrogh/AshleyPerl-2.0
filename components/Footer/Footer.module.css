@@ -1,0 +1,50 @@
+.footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 1rem 2rem 0.5rem 2rem;
+  margin-top: auto;
+}
+
+.footer p {
+  font-size: 16px;
+  padding-right: 2rem;
+}
+
+.footerLinks {
+  align-self: center;
+}
+
+.footerLinks img {
+  height: 20px;
+}
+
+.muckrackLogo,
+.xLogo {
+  margin-left: 2.5rem;
+}
+
+.xLogo img {
+  height: 17px;
+  margin-bottom: 2px;
+}
+
+.muckrackLogo {
+  color: black;
+}
+
+@media (width < 377px) {
+  .footer {
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .footer p {
+    order: 2;
+    padding-right: 2px;
+  }
+
+  .footerLinks {
+    padding-top: 1rem;
+  }
+}

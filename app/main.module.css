@@ -1,0 +1,53 @@
+.sectionWrapper {
+  display: flex;
+  margin: 0px 4%;
+}
+
+.presentationSection {
+  width: 50%;
+  height: auto;
+  align-self: center;
+}
+
+.presentationSection > h1 {
+  line-height: 1.2;
+  font-size: 50px;
+  margin-bottom: 1rem;
+}
+
+.presentationSection > p {
+  font-size: 30px;
+  line-height: 1.4;
+}
+
+.imageSection {
+  width: 50%;
+  height: auto;
+}
+
+.imageSection > img {
+  object-fit: cover;
+  width: 70%;
+  aspect-ratio: 1;
+  margin-left: auto;
+  display: block;
+}
+
+@media (width < 650px) {
+  .sectionWrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+  .presentationSection {
+    width: 100%;
+  }
+
+  .imageSection {
+    width: 100%;
+  }
+  .imageSection > img {
+    object-fit: cover;
+    width: 100%;
+    display: block;
+  }
+}
