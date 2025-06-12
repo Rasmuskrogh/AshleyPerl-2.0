@@ -35,15 +35,15 @@
 
 .figure {
   margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1.6 / 1;
 }
 
 .card img {
   object-fit: cover;
   width: 100%;
-  aspect-ratio: 1.6 / 1;
+  height: 100%;
   margin-left: auto;
   display: block;
 }
@@ -61,7 +61,11 @@
 .publicationDate {
   margin: 0;
   color: grey;
-  line-height: 1.5;
+}
+
+.cardTitle {
+  margin: 1rem 0;
+  line-height: 1.4;
 }
 
 @media (width < 1000px) {

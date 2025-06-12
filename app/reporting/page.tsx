@@ -17,8 +17,7 @@ export default function Reporting() {
                 <Image
                   src={article.image}
                   alt={article.imageAlt}
-                  width={400}
-                  height={250}
+                  fill
                   priority={article.id <= 4}
                 />
               </figure>

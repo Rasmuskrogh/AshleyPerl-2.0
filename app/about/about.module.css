@@ -1,5 +1,18 @@
 .aboutWrapper {
   display: flex;
+  gap: 2rem;
+  margin: 0 4%;
+}
+
+.aboutHeader {
+  text-align: center;
+  line-height: 0px;
+  font-size: 50px;
+  margin-bottom: 4rem;
+}
+
+.aboutSection {
+  display: flex;
   margin: 0px 4%;
   gap: 2rem;
 }
@@ -13,17 +26,18 @@
   line-height: 1.2;
   font-size: 50px;
   margin-bottom: 2rem;
+  padding-top: 0.9rem;
 }
 
 .textAside > p,
 .textAside > ul > li {
   font-size: 19px;
-  line-height: 1.5;
+  /* line-height: 1.5; */
   margin-bottom: 1rem;
 }
 
-.listHeading {
-  margin-bottom: 0.5rem;
+.textAside > p.listHeading {
+  margin-bottom: 0;
 }
 
 .textAside > p > a {
@@ -32,26 +46,35 @@
 }
 
 .textAside > ul {
-  margin-top: 0.5rem;
-  padding-left: 1.5rem;
+  margin: 0;
+  padding-left: 2.5rem;
 }
 
 .textAside > ul > li {
-  margin-bottom: 0.5rem;
+  margin: 0;
 }
 
 .figureSection {
-  width: 50%;
   height: auto;
+  width: 50%;
+  display: flex;
+  align-items: center;
+}
+
+.figureSection figure {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin: 0;
 }
 
 .figureSection > img {
-  object-fit: cover;
-  width: 100%;
-  height: 80%;
-  overflow: hidden;
-  margin-left: auto;
   display: block;
+  height: 80%;
+  margin-left: auto;
+  object-fit: cover;
+  overflow: hidden;
+  width: 100%;
 }
 
 @media (width < 1000px) {
