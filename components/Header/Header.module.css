@@ -5,7 +5,7 @@
   flex-wrap: wrap;
   background-color: transparent;
   margin: 0 4% 2% 4%;
-  height: 5.4rem;
+  min-height: 5.4rem;
 }
 
 .headerList {

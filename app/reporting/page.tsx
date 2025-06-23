@@ -1,8 +1,10 @@
 import Image from "next/image";
 import styles from "./reporting.module.css";
-import { articles } from "./DUMMY_DATA";
+import { getArticles } from "../../lib/getArticles";
 
-export default function Reporting() {
+export default async function Reporting() {
+  const articles = await getArticles();
+
   return (
     <div className={styles.reportingWrapper}>
       <section className={styles.reportingHeaderSection}>
@@ -15,8 +17,8 @@ export default function Reporting() {
             <a href={article.url} target="_blank" rel="noopener noreferrer">
               <figure className={styles.figure}>
                 <Image
-                  src={article.image}
-                  alt={article.imageAlt}
+                  src={article.image_url}
+                  alt={article.image_alt}
                   fill
                   priority={article.id <= 4}
                 />
