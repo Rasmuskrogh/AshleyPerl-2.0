@@ -1,5 +1,5 @@
-import Header from "@/components/Header/Header";
-import Footer from "@/components/Footer/Footer";
+import ConditionalLayout from "@/components/ConditionalLayout";
+import Providers from "@/components/Providers";
 import "./globals.css";
 
 export default function RootLayout({
@@ -10,11 +10,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body suppressHydrationWarning>
-        <div className="app">
-          <Header />
-          <main>{children}</main>
-          <Footer />
-        </div>
+        <Providers>
+          <ConditionalLayout>{children}</ConditionalLayout>
+        </Providers>
       </body>
     </html>
   );
