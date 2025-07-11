@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import styles from "@/app/admin/admin.module.css";
+import styles from "./Admin/LoginForm.module.css";
+import Dashboard from "./Admin/Dashboard";
 
 export default function AdminAuth() {
   const { data: session, status } = useSession();
@@ -13,10 +14,10 @@ export default function AdminAuth() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  // Redirect om användaren inte är inloggad och vi inte är på inloggningssidan
+  // Redirect if user is not logged in and we're not on the login page
   useEffect(() => {
     if (status === "unauthenticated") {
-      // Användaren är inte inloggad, visa inloggningsformuläret
+      // User is not logged in, show login form
     }
   }, [status]);
 
@@ -33,10 +34,10 @@ export default function AdminAuth() {
       });
 
       if (result?.error) {
-        setError("Felaktigt användarnamn eller lösenord");
+        setError("Invalid username or password");
       }
     } catch (error) {
-      setError("Ett fel uppstod. Försök igen.");
+      setError("An error occurred. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -46,36 +47,27 @@ export default function AdminAuth() {
     signOut({ callbackUrl: "/admin" });
   };
 
-  // Visa laddning medan vi kontrollerar session
+  // Show loading while checking session
   if (status === "loading") {
     return (
-      <div className={styles.adminContainer}>
-        <p>Laddar...</p>
+      <div className={styles.loginContainer}>
+        <p className={styles.loadingMessage}>Loading...</p>
       </div>
     );
   }
 
-  // Om användaren är inloggad, visa admin dashboard
+  // If user is logged in, show dashboard
   if (session) {
-    return (
-      <div className={styles.adminContainer}>
-        <h1>Admin Dashboard</h1>
-        <p>Välkommen, {session.user?.name || session.user?.username}!</p>
-        <p>Du är inloggad som admin.</p>
-        <button className={styles.logoutButton} onClick={handleLogout}>
-          Logga ut
-        </button>
-      </div>
-    );
+    return <Dashboard />;
   }
 
-  // Om användaren inte är inloggad, visa inloggningsformulär
+  // If user is not logged in, show login form
   return (
-    <div className={styles.adminContainer}>
+    <div className={styles.loginContainer}>
       <h1>Admin Login</h1>
       <form onSubmit={handleLogin} className={styles.loginForm}>
         <div className={styles.formGroup}>
-          <label htmlFor="username">Användarnamn:</label>
+          <label htmlFor="username">Username:</label>
           <input
             type="text"
             id="username"
@@ -85,7 +77,7 @@ export default function AdminAuth() {
           />
         </div>
         <div className={styles.formGroup}>
-          <label htmlFor="password">Lösenord:</label>
+          <label htmlFor="password">Password:</label>
           <input
             type="password"
             id="password"
@@ -94,15 +86,13 @@ export default function AdminAuth() {
             required
           />
         </div>
-        {error && (
-          <div style={{ color: "red", textAlign: "center" }}>{error}</div>
-        )}
+        {error && <div className={styles.errorMessage}>{error}</div>}
         <button
           type="submit"
           className={styles.loginButton}
           disabled={isLoading}
         >
-          {isLoading ? "Loggar in..." : "Logga in"}
+          {isLoading ? "Logging in..." : "Login"}
         </button>
       </form>
     </div>

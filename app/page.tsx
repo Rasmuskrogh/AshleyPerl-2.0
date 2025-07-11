@@ -1,22 +1,21 @@
-"use client";
-
 import Image from "next/image";
 import styles from "./main.module.css";
+import { getHomepageContent } from "../lib/getHomepageContent";
 
-export default function Home() {
+export default async function Home() {
+  const content = await getHomepageContent();
+  console.log("Homepage content:", content);
+
   return (
     <main>
       <div className={styles.sectionWrapper}>
         <section className={styles.presentationSection}>
-          <h1>Hello.</h1>
-          <p>
-            I'm Ashley Perl – a journalist covering energy, climate and science
-            stories.
-          </p>
+          <h1>{content.title}</h1>
+          <p>{content.description}</p>
         </section>
         <section className={styles.imageSection}>
           <Image
-            src="/PerlAshley.jpg"
+            src={content.imageUrl || "/PerlAshley.jpg"}
             alt="headshot"
             width={500}
             height={500}
