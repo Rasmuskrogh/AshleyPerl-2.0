@@ -16,7 +16,12 @@ export async function getHomepageContent(): Promise<HomepageContent> {
     console.log("Number of rows:", result.rows.length);
 
     if (result.rows.length > 0) {
-      const content = result.rows[0];
+      const row = result.rows[0];
+      const content = {
+        title: row.title,
+        description: row.description,
+        imageUrl: row.imageurl || row.imageUrl, // Handle both cases
+      };
       console.log("Returning content:", content);
       return content;
     }

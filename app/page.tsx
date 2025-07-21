@@ -2,6 +2,9 @@ import Image from "next/image";
 import styles from "./main.module.css";
 import { getHomepageContent } from "../lib/getHomepageContent";
 
+// Revalidate homepage when content changes
+export const revalidate = 0;
+
 export default async function Home() {
   const content = await getHomepageContent();
   console.log("Homepage content:", content);

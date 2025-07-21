@@ -80,6 +80,7 @@ export async function PUT(request: NextRequest) {
     });
 
     response.headers.set("Cache-Control", "no-cache");
+    response.headers.set("Next-Revalidate", "0");
     return response;
   } catch (error) {
     console.error("Error updating homepage content:", error);
