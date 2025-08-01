@@ -1,19 +1,16 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
-import styles from "./HomepageEditor.module.css";
+import styles from "./AboutEditor.module.css";
 
-interface HomepageContent {
-  title: string;
-  description: string;
+interface AboutContent {
+  content: string;
   imageUrl: string;
 }
 
-export default function HomepageEditor() {
-  const [content, setContent] = useState<HomepageContent>({
-    title: "",
-    description: "",
+export default function AboutEditor() {
+  const [content, setContent] = useState<AboutContent>({
+    content: "",
     imageUrl: "",
   });
   const [isLoading, setIsLoading] = useState(true);
@@ -26,7 +23,7 @@ export default function HomepageEditor() {
 
   const fetchContent = async () => {
     try {
-      const response = await fetch("/api/admin/homepage");
+      const response = await fetch("/api/admin/about");
       if (response.ok) {
         const data = await response.json();
         setContent(data);
@@ -46,7 +43,7 @@ export default function HomepageEditor() {
 
     try {
       console.log("Sending content to API:", content);
-      const response = await fetch("/api/admin/homepage", {
+      const response = await fetch("/api/admin/about", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -80,7 +77,7 @@ export default function HomepageEditor() {
       const formData = new FormData();
       formData.append("image", file);
 
-      const response = await fetch("/api/admin/upload-image?folder=homepage", {
+      const response = await fetch("/api/admin/upload-image?folder=about", {
         method: "POST",
         body: formData,
       });
@@ -109,7 +106,7 @@ export default function HomepageEditor() {
 
   return (
     <div className={styles.editor}>
-      <h2>Homepage Editor</h2>
+      <h2>About Page Editor</h2>
 
       {message && (
         <div
@@ -127,29 +124,20 @@ export default function HomepageEditor() {
       )}
 
       <div className={styles.section}>
-        <label htmlFor="title">Title (H1)</label>
-        <input
-          id="title"
-          type="text"
-          value={content.title}
-          onChange={(e) =>
-            setContent((prev) => ({ ...prev, title: e.target.value }))
-          }
-          placeholder="Enter title..."
-        />
-      </div>
-
-      <div className={styles.section}>
-        <label htmlFor="description">Description</label>
+        <label htmlFor="content">Content</label>
         <textarea
-          id="description"
-          value={content.description}
+          id="content"
+          value={content.content}
           onChange={(e) =>
-            setContent((prev) => ({ ...prev, description: e.target.value }))
+            setContent((prev) => ({ ...prev, content: e.target.value }))
           }
-          placeholder="Enter description..."
-          rows={4}
+          placeholder="Enter about content..."
+          rows={15}
         />
+        <p className={styles.helpText}>
+          Use * for bullet points. Lines starting with * will become bullet
+          points automatically.
+        </p>
       </div>
 
       <div className={styles.section}>
@@ -158,8 +146,13 @@ export default function HomepageEditor() {
           <div className={styles.imagePreview}>
             <img
               src={content.imageUrl}
-              alt="Homepage image"
-              style={{ width: "200px", height: "200px", objectFit: "cover" }}
+              alt="About page image"
+              style={{
+                width: "300px",
+                height: "auto",
+                maxHeight: "200px",
+                objectFit: "cover",
+              }}
             />
           </div>
         )}

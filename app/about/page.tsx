@@ -1,50 +1,88 @@
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./about.module.css";
+import { getAboutContent } from "../../lib/getAboutContent";
 
-export default function About() {
+// Revalidate about page when content changes
+export const revalidate = 0;
+
+export default async function About() {
+  const aboutData = await getAboutContent();
+
+  // Parse content and handle bullet points
+  const paragraphs = aboutData.content.split("\n\n").filter((p) => p.trim());
+
+  // Render content
+  const renderContent = () => {
+    return paragraphs.map((paragraph, index) => {
+      const lines = paragraph.split("\n");
+
+      // Check if this paragraph contains bullet points (lines starting with *)
+      const bulletLines = lines.filter(
+        (line) => line.trim().startsWith("*") || line.trim().startsWith("•")
+      );
+
+      if (bulletLines.length > 0) {
+        // Handle mixed content (regular text + bullet points)
+        return (
+          <div key={index} className={styles.paragraph}>
+            {lines.map((line, lineIndex) => {
+              if (line.trim().startsWith("*") || line.trim().startsWith("•")) {
+                // This is a bullet point
+                return (
+                  <ul key={lineIndex} className={styles.singleItemList}>
+                    <li>{line.replace(/^[*•]\s*/, "").trim()}</li>
+                  </ul>
+                );
+              } else {
+                // This is regular text
+                return <p key={lineIndex}>{line}</p>;
+              }
+            })}
+          </div>
+        );
+      } else {
+        // Regular paragraph - preserve line breaks
+        if (lines.length === 1) {
+          return (
+            <p key={index} className={styles.paragraph}>
+              {paragraph}
+            </p>
+          );
+        } else {
+          return (
+            <div key={index} className={styles.paragraph}>
+              {lines.map((line, lineIndex) => (
+                <p key={lineIndex}>{line}</p>
+              ))}
+            </div>
+          );
+        }
+      }
+    });
+  };
   return (
     <div className={styles.aboutWrapper}>
       <aside className={styles.textAside}>
         <h1>ABOUT</h1>
-        <p>I'm Ashley Perl, a freelance journalist based in Stockholm.</p>
-        <p>
-          I love a good story – and the challenge of taking a concept and
-          crafting it into something that connects to people.
-        </p>
-        <p>
-          I mostly cover stories about energy, climate and science. But I also
-          write about other topics that spark my interest.
-        </p>
-        <p>
-          If you would like to talk about working together, please write me. I
-          would be <Link href="/contact">happy to chat</Link>.
-        </p>
-        <p>
-          A little bit more about me: I was a fellow in the Dalla Lana
-          Fellowship in Journalism and Health Impact at the University of
-          Toronto (2023-2024).
-        </p>
-        <p className={styles.listHeading}>I also have a:</p>
-        <ul>
-          <li>
-            Master of science in sustainability, Stockholm University
-            (2012-2015)
-          </li>
-          <li>
-            Hounors bachelor of arts in psychology, Western University in
-            London, Ont. (2007-2012)
-          </li>
-        </ul>
+        {renderContent()}
       </aside>
       <figure className={styles.figureSection}>
-        <Image
-          src="/Scenic.jpg"
-          alt="a scenic austian village and lake"
-          width={800}
-          height={600}
-          priority
-        />
+        {aboutData.imageUrl.startsWith("/") ? (
+          <img
+            src={aboutData.imageUrl}
+            alt="a scenic austian village and lake"
+            style={{ width: "100%", height: "auto" }}
+          />
+        ) : (
+          <Image
+            src={aboutData.imageUrl}
+            alt="a scenic austian village and lake"
+            width={800}
+            height={600}
+            priority
+          />
+        )}
       </figure>
     </div>
   );

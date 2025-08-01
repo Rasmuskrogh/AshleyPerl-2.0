@@ -33,11 +33,20 @@
 .textAside > ul > li {
   font-size: 19px;
   /* line-height: 1.5; */
-  margin-bottom: 1rem;
+  margin-bottom: 0;
 }
 
 .textAside > p.listHeading {
   margin-bottom: 0;
+}
+
+.textAside > div > p {
+  font-size: 19px;
+  margin-bottom: 0;
+}
+
+.textAside > .paragraph {
+  margin-bottom: 1rem;
 }
 
 .textAside > p > a {
@@ -47,11 +56,42 @@
 
 .textAside > ul {
   margin: 0;
-  padding-left: 2.5rem;
+  padding-left: 0;
+  list-style: none;
 }
 
 .textAside > ul > li {
   margin: 0;
+  font-size: 19px;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.textAside > ul > li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: inherit;
+}
+
+.textAside .singleItemList {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+.textAside .singleItemList > li {
+  margin: 0;
+  font-size: 19px;
+  padding-left: 1rem;
+  position: relative;
+}
+
+.textAside .singleItemList > li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: inherit;
 }
 
 .figureSection {

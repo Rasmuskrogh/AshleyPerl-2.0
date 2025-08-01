@@ -37,9 +37,53 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Validate file size (10MB limit for free account)
+    const maxSize = 10 * 1024 * 1024; // 10MB in bytes
+    if (file.size > maxSize) {
+      return NextResponse.json(
+        {
+          error: "File too large",
+          details: `File size: ${(file.size / 1024 / 1024).toFixed(
+            2
+          )}MB, Max allowed: 10MB`,
+        },
+        { status: 400 }
+      );
+    }
+
+    // Validate file type
+    const allowedTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/gif",
+      "image/webp",
+      "image/svg+xml",
+    ];
+    if (!allowedTypes.includes(file.type)) {
+      return NextResponse.json(
+        {
+          error: "Invalid file type",
+          details: `File type: ${file.type}, Allowed: ${allowedTypes.join(
+            ", "
+          )}`,
+        },
+        { status: 400 }
+      );
+    }
+
+    console.log(
+      `Uploading file: ${file.name}, Size: ${(file.size / 1024 / 1024).toFixed(
+        2
+      )}MB, Type: ${file.type}`
+    );
+
     // Convert file to buffer
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
+
+    // Get folder from query parameter or default to "about"
+    const url = new URL(request.url);
+    const folder = url.searchParams.get("folder") || "about";
 
     // Upload to Cloudinary
     const result = await new Promise<CloudinaryUploadResult>(
@@ -47,11 +91,16 @@ export async function POST(request: NextRequest) {
         cloudinary.uploader
           .upload_stream(
             {
-              folder: "homepage",
+              folder: folder,
               resource_type: "image",
+              transformation: [
+                { width: 1920, height: 1080, crop: "limit" }, // Limit max dimensions
+                { quality: "auto:good" }, // Optimize quality
+              ],
             },
             (error, result) => {
               if (error) {
+                console.error("Cloudinary upload error:", error);
                 reject(error);
               } else {
                 resolve(result as CloudinaryUploadResult);

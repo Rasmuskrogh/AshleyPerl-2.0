@@ -4,6 +4,8 @@ import { useSession, signOut } from "next-auth/react";
 import { useState } from "react";
 import styles from "./Dashboard.module.css";
 import HomepageEditor from "./HomepageEditor";
+import AboutEditor from "./AboutEditor";
+import ArticlesEditor from "./ArticlesEditor";
 
 export default function Dashboard() {
   const { data: session } = useSession();
@@ -119,12 +121,7 @@ export default function Dashboard() {
 
         {activeTab === "about" && (
           <div className={styles.contentSection}>
-            <h2>About Page Editor</h2>
-            <p>Edit the content on the about page.</p>
-            <div className={styles.comingSoon}>
-              <p>🚧 Under Development</p>
-              <p>About page editor coming soon!</p>
-            </div>
+            <AboutEditor />
           </div>
         )}
 
@@ -141,12 +138,7 @@ export default function Dashboard() {
 
         {activeTab === "articles" && (
           <div className={styles.contentSection}>
-            <h2>Articles Management</h2>
-            <p>Manage articles on the reporting page.</p>
-            <div className={styles.comingSoon}>
-              <p>🚧 Under Development</p>
-              <p>Articles management coming soon!</p>
-            </div>
+            <ArticlesEditor />
           </div>
         )}
       </main>

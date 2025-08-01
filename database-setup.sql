@@ -32,6 +32,15 @@ CREATE TABLE IF NOT EXISTS homepage_content (
   updated_at TIMESTAMP DEFAULT NOW()
 );
 
+-- Create about_content table
+CREATE TABLE IF NOT EXISTS about_content (
+  id SERIAL PRIMARY KEY,
+  content TEXT NOT NULL,
+  image_url VARCHAR(500) NOT NULL,
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW()
+);
+
 -- Insert default homepage content
 INSERT INTO homepage_content (title, description, image_url) VALUES
 (
@@ -44,6 +53,23 @@ INSERT INTO homepage_content (title, description, image_url) VALUES
 INSERT INTO homepage_content (title, description, image_url) 
 SELECT 'Hello.', 'I''m Ashley Perl – a journalist covering energy, climate and science stories.', '/PerlAshley.jpg'
 WHERE NOT EXISTS (SELECT 1 FROM homepage_content);
+
+-- Insert default about content (only if table is empty)
+INSERT INTO about_content (content, image_url) 
+SELECT 'I''m Ashley Perl, a freelance journalist based in Stockholm.
+
+I love a good story – and the challenge of taking a concept and crafting it into something that connects to people.
+
+I mostly cover stories about energy, climate and science. But I also write about other topics that spark my interest.
+
+If you would like to talk about working together, please write me. I would be happy to chat.
+
+A little bit more about me: I was a fellow in the Dalla Lana Fellowship in Journalism and Health Impact at the University of Toronto (2023-2024).
+
+I also have a:
+* Master of science in sustainability, Stockholm University (2012-2015)
+* Honors bachelor of arts in psychology, Western University in London, Ont. (2007-2012)', '/Scenic.jpg'
+WHERE NOT EXISTS (SELECT 1 FROM about_content);
 
 -- Insert articles data (only if they don't already exist)
 INSERT INTO articles (title, publication, date, image_url, image_alt, url) 
