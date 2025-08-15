@@ -24,3 +24,9 @@ declare module "next-auth/jwt" {
     role: string;
   }
 }
+
+export interface EmailData {
+  name: string;
+  email: string;
+  message: string;
+}

@@ -26,7 +26,7 @@ export async function PUT(
 
     const result = await pool.query(
       `UPDATE articles 
-       SET title = $1, description = $2, link = $3, date = $4, image_url = $5 
+       SET title = $1, publication = $2, url = $3, date = $4, image_url = $5 
        WHERE id = $6 
        RETURNING *`,
       [title, description, link, date, imageUrl || null, params.id]

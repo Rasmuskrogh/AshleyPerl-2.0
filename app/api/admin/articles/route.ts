@@ -46,10 +46,10 @@ export async function POST(request: NextRequest) {
     }
 
     const result = await pool.query(
-      `INSERT INTO articles (title, description, link, date, image_url) 
-       VALUES ($1, $2, $3, $4, $5) 
+      `INSERT INTO articles (title, publication, url, date, image_url, image_alt) 
+       VALUES ($1, $2, $3, $4, $5, $6) 
        RETURNING *`,
-      [title, description, link, date, imageUrl || null]
+      [title, description, link, date, imageUrl || null, "Article image"]
     );
 
     return NextResponse.json(result.rows[0], { status: 201 });

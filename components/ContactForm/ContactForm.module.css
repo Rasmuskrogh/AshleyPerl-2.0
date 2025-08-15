@@ -1,0 +1,75 @@
+.form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.label {
+  display: block;
+  margin-bottom: 20px;
+}
+
+.labelLargeMargin {
+  margin-bottom: 20px;
+}
+
+.labelText {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #555;
+  font-size: 16px;
+}
+
+.field {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  font-family: inherit;
+  background: white;
+  color: #333;
+  transition: border-color 0.2s;
+}
+
+.field::placeholder {
+  color: #999;
+}
+
+.field:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.button {
+  width: 100%;
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-family: inherit;
+}
+
+.button:hover:not(:disabled) {
+  background: #0056b3;
+}
+
+.button:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+}

@@ -6,10 +6,11 @@ import styles from "./DeleteArticlesList.module.css";
 interface Article {
   id: number;
   title: string;
-  description: string;
-  link: string;
+  publication: string; // Maps to 'description' in form
+  url: string; // Maps to 'link' in form
   date: string;
   image_url: string;
+  image_alt: string;
 }
 
 export default function DeleteArticlesList() {
@@ -157,9 +158,9 @@ export default function DeleteArticlesList() {
                   <h4>{article.title}</h4>
                   <p className={styles.articleDate}>{article.date}</p>
                   <p className={styles.articleDescription}>
-                    {article.description && article.description.length > 100
-                      ? `${article.description.substring(0, 100)}...`
-                      : article.description || "No description"}
+                    {article.publication && article.publication.length > 100
+                      ? `${article.publication.substring(0, 100)}...`
+                      : article.publication || "No description"}
                   </p>
                   <button
                     onClick={() => handleDeleteClick(article)}

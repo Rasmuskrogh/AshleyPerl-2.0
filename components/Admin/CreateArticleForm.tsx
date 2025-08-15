@@ -5,8 +5,8 @@ import styles from "./CreateArticleForm.module.css";
 
 interface ArticleFormData {
   title: string;
-  description: string;
-  link: string;
+  description: string; // This maps to 'publication' in database
+  link: string; // This maps to 'url' in database
   date: string;
   imageUrl: string;
 }
@@ -133,20 +133,20 @@ export default function CreateArticleForm() {
         </div>
 
         <div className={styles.section}>
-          <label htmlFor="description">Description *</label>
+          <label htmlFor="description">Publication *</label>
           <textarea
             id="description"
             name="description"
             value={formData.description}
             onChange={handleInputChange}
-            placeholder="Enter article description..."
+            placeholder="Enter publication name..."
             rows={4}
             required
           />
         </div>
 
         <div className={styles.section}>
-          <label htmlFor="link">Link *</label>
+          <label htmlFor="link">URL *</label>
           <input
             id="link"
             name="link"

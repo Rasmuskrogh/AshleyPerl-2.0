@@ -6,16 +6,17 @@ import styles from "./EditArticlesList.module.css";
 interface Article {
   id: number;
   title: string;
-  description: string;
-  link: string;
+  publication: string; // Maps to 'description' in form
+  url: string; // Maps to 'link' in form
   date: string;
   image_url: string;
+  image_alt: string;
 }
 
 interface ArticleFormData {
   title: string;
-  description: string;
-  link: string;
+  description: string; // This maps to 'publication' in database
+  link: string; // This maps to 'url' in database
   date: string;
   imageUrl: string;
 }
@@ -58,8 +59,8 @@ export default function EditArticlesList() {
     setEditingArticle(article);
     setFormData({
       title: article.title,
-      description: article.description,
-      link: article.link,
+      description: article.publication, // Map from database column to form field
+      link: article.url, // Map from database column to form field
       date: article.date,
       imageUrl: article.image_url || "",
     });
@@ -193,7 +194,7 @@ export default function EditArticlesList() {
             </div>
 
             <div className={styles.section}>
-              <label htmlFor="edit-description">Description *</label>
+              <label htmlFor="edit-description">Publication *</label>
               <textarea
                 id="edit-description"
                 name="description"
@@ -205,7 +206,7 @@ export default function EditArticlesList() {
             </div>
 
             <div className={styles.section}>
-              <label htmlFor="edit-link">Link *</label>
+              <label htmlFor="edit-link">URL *</label>
               <input
                 id="edit-link"
                 name="link"
@@ -295,9 +296,9 @@ export default function EditArticlesList() {
                     <h4>{article.title}</h4>
                     <p className={styles.articleDate}>{article.date}</p>
                     <p className={styles.articleDescription}>
-                      {article.description && article.description.length > 100
-                        ? `${article.description.substring(0, 100)}...`
-                        : article.description || "No description"}
+                      {article.publication && article.publication.length > 100
+                        ? `${article.publication.substring(0, 100)}...`
+                        : article.publication || "No description"}
                     </p>
                     <button
                       onClick={() => handleEdit(article)}
