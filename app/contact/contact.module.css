@@ -10,19 +10,6 @@
 
 .contactParagraph {
   font-size: 19px;
-  margin: 1.5rem 0;
-}
-
-.contactInformation {
-  margin: 0;
-  font-size: 19px;
-}
-
-.contactInformation a {
-  text-decoration: none;
-  color: black;
-}
-
-.contactInformation a:hover {
-  color: #088f8f;
+  padding: 0 0 2.5rem 0;
+  text-align: center;
 }
