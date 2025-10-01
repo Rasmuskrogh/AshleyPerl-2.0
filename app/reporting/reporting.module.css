@@ -19,6 +19,42 @@
   line-height: 1.5;
 }
 
+.filterSection {
+  margin-bottom: 3rem;
+  display: flex;
+  justify-content: center;
+}
+
+.filterWrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.filterLabel {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+}
+
+.filterDropdown {
+  padding: 0.5rem 1rem;
+  border: 2px solid #333;
+  background-color: white;
+  font-size: 16px;
+  cursor: pointer;
+  min-width: 200px;
+}
+
+.filterDropdown:focus {
+  outline: none;
+  border-color: #666;
+}
+
+.filterDropdown:hover {
+  border-color: #666;
+}
+
 .cardSection {
   display: grid;
   grid-template-columns: repeat(4, 1fr);

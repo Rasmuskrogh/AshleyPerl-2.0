@@ -1,5 +1,9 @@
 import ConditionalLayout from "@/components/ConditionalLayout";
 import Providers from "@/components/Providers";
+import {
+  PersonStructuredData,
+  OrganizationStructuredData,
+} from "@/components/StructuredData";
 import "./globals.css";
 
 export default function RootLayout({
@@ -9,6 +13,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <PersonStructuredData />
+        <OrganizationStructuredData />
+      </head>
       <body suppressHydrationWarning>
         <Providers>
           <ConditionalLayout>{children}</ConditionalLayout>

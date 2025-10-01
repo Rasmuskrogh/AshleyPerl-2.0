@@ -5,6 +5,7 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import styles from "./Admin/LoginForm.module.css";
 import Dashboard from "./Admin/Dashboard";
+import { useInactivityTimeout } from "../hooks/useInactivityTimeout";
 
 export default function AdminAuth() {
   const { data: session, status } = useSession();
@@ -12,7 +13,20 @@ export default function AdminAuth() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showTimeoutWarning, setShowTimeoutWarning] = useState(false);
   const router = useRouter();
+
+  // Set up inactivity timeout (30 minutes with 5 minute warning)
+  useInactivityTimeout({
+    timeout: 30 * 60 * 1000, // 30 minutes
+    warningTime: 5 * 60 * 1000, // 5 minutes warning
+    onWarning: () => {
+      setShowTimeoutWarning(true);
+    },
+    onTimeout: () => {
+      signOut({ callbackUrl: "/admin" });
+    },
+  });
 
   // Redirect if user is not logged in and we're not on the login page
   useEffect(() => {
@@ -47,6 +61,12 @@ export default function AdminAuth() {
     signOut({ callbackUrl: "/admin" });
   };
 
+  const handleStayLoggedIn = () => {
+    setShowTimeoutWarning(false);
+    // Reset the timeout by triggering activity
+    window.dispatchEvent(new Event("mousedown"));
+  };
+
   // Show loading while checking session
   if (status === "loading") {
     return (
@@ -58,7 +78,28 @@ export default function AdminAuth() {
 
   // If user is logged in, show dashboard
   if (session) {
-    return <Dashboard />;
+    return (
+      <>
+        {showTimeoutWarning && (
+          <div className={styles.timeoutWarning}>
+            <div className={styles.warningContent}>
+              <h3>⚠️ Session Timeout Warning</h3>
+              <p>You will be automatically logged out due to inactivity.</p>
+              <p>
+                Please refresh the page or perform an action to stay logged in.
+              </p>
+              <button
+                onClick={handleStayLoggedIn}
+                className={styles.warningButton}
+              >
+                Stay Logged In
+              </button>
+            </div>
+          </div>
+        )}
+        <Dashboard />
+      </>
+    );
   }
 
   // If user is not logged in, show login form

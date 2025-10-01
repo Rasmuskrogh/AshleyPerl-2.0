@@ -28,3 +28,11 @@ export async function getArticles() {
   `);
   return result.rows;
 }
+
+export async function getPublications() {
+  const result = await pool.query(`
+    SELECT DISTINCT publication FROM articles 
+    ORDER BY publication ASC
+  `);
+  return result.rows.map((row) => row.publication);
+}

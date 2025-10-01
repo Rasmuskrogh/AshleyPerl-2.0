@@ -1,26 +1,54 @@
 "use client";
 
 import { useSession, signOut } from "next-auth/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./Dashboard.module.css";
 import HomepageEditor from "./HomepageEditor";
 import AboutEditor from "./AboutEditor";
 import ArticlesEditor from "./ArticlesEditor";
 
+interface DashboardStats {
+  articleCount: number;
+  lastUpdated: string;
+  lastUpdatedSource: string;
+}
+
 export default function Dashboard() {
   const { data: session } = useSession();
   const [activeTab, setActiveTab] = useState("overview");
+  const [stats, setStats] = useState<DashboardStats>({
+    articleCount: 0,
+    lastUpdated: "Loading...",
+    lastUpdatedSource: "Unknown",
+  });
 
   const handleLogout = () => {
     signOut({ callbackUrl: "/admin" });
   };
+
+  // Fetch dashboard stats
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const response = await fetch("/api/admin/dashboard-stats");
+        if (response.ok) {
+          const data = await response.json();
+          setStats(data);
+        }
+      } catch (error) {
+        console.error("Error fetching dashboard stats:", error);
+      }
+    };
+
+    fetchStats();
+  }, []);
 
   return (
     <div className={styles.dashboardContainer}>
       {/* Header */}
       <header className={styles.header}>
         <div className={styles.headerContent}>
-          <h1 className={styles.title}>Admin Dashboard</h1>
+          <h1 className={styles.title}>Ashmin Dashboard</h1>
           <div className={styles.userInfo}>
             <span>
               Welcome, {session?.user?.name || session?.user?.username}
@@ -60,14 +88,6 @@ export default function Dashboard() {
         </button>
         <button
           className={`${styles.navButton} ${
-            activeTab === "contact" ? styles.active : ""
-          }`}
-          onClick={() => setActiveTab("contact")}
-        >
-          📧 Contact Page
-        </button>
-        <button
-          className={`${styles.navButton} ${
             activeTab === "articles" ? styles.active : ""
           }`}
           onClick={() => setActiveTab("articles")}
@@ -84,13 +104,13 @@ export default function Dashboard() {
             <div className={styles.statsGrid}>
               <div className={styles.statCard}>
                 <h3>Articles</h3>
-                <p className={styles.statNumber}>18</p>
+                <p className={styles.statNumber}>{stats.articleCount}</p>
                 <p className={styles.statLabel}>Total count</p>
               </div>
               <div className={styles.statCard}>
                 <h3>Last Updated</h3>
-                <p className={styles.statNumber}>Today</p>
-                <p className={styles.statLabel}>Home page</p>
+                <p className={styles.statNumber}>{stats.lastUpdated}</p>
+                <p className={styles.statLabel}>{stats.lastUpdatedSource}</p>
               </div>
               <div className={styles.statCard}>
                 <h3>Quick Actions</h3>
