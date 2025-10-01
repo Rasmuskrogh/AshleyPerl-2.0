@@ -25,6 +25,15 @@ export default function ReportingClient({
 }: ReportingClientProps) {
   const [selectedPublication, setSelectedPublication] = useState<string>("All");
 
+  // Function to convert publication name to title case
+  const toTitleCase = (str: string) => {
+    return str
+      .toLowerCase()
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+  };
+
   const filteredArticles =
     selectedPublication === "All"
       ? articles
@@ -48,7 +57,7 @@ export default function ReportingClient({
             <option value="All">All Publications</option>
             {publications.map((publication) => (
               <option key={publication} value={publication}>
-                {publication}
+                {toTitleCase(publication)}
               </option>
             ))}
           </select>
