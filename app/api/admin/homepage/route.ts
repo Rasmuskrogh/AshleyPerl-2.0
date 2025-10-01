@@ -11,7 +11,6 @@ export async function GET() {
     const session = await getServerSession(authOptions);
 
     console.log("Session in GET:", session);
-    console.log("User email:", session?.user?.email);
     console.log("User username:", session?.user?.username);
 
     if (!session?.user?.username) {
