@@ -59,7 +59,7 @@ export async function DELETE(
     }
 
     const { id } = await params;
-    
+
     const result = await pool.query(
       "DELETE FROM articles WHERE id = $1 RETURNING *",
       [id]

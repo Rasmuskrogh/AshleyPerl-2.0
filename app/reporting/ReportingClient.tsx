@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import styles from "./reporting.module.css";
 
@@ -14,15 +14,10 @@ interface Article {
   url: string;
 }
 
-interface ReportingClientProps {
-  articles: Article[];
-  publications: string[];
-}
-
-export default function ReportingClient({
-  articles,
-  publications,
-}: ReportingClientProps) {
+export default function ReportingClient() {
+  const [articles, setArticles] = useState<Article[]>([]);
+  const [publications, setPublications] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [selectedPublication, setSelectedPublication] = useState<string>("All");
 
   // Function to convert publication name to title case
@@ -34,12 +29,45 @@ export default function ReportingClient({
       .join(" ");
   };
 
+  // Fetch data on component mount
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [articlesRes, publicationsRes] = await Promise.all([
+          fetch('/api/articles'),
+          fetch('/api/publications')
+        ]);
+        
+        if (articlesRes.ok && publicationsRes.ok) {
+          const articlesData = await articlesRes.json();
+          const publicationsData = await publicationsRes.json();
+          setArticles(articlesData);
+          setPublications(publicationsData);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const filteredArticles =
     selectedPublication === "All"
       ? articles
       : articles.filter(
           (article) => article.publication === selectedPublication
         );
+
+  if (isLoading) {
+    return (
+      <div style={{ textAlign: 'center', padding: '2rem' }}>
+        <p>Loading articles...</p>
+      </div>
+    );
+  }
 
   return (
     <>
