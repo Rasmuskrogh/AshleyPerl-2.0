@@ -52,13 +52,13 @@ export default function CreateArticleForm() {
         setFormData((prev) => ({ ...prev, imageUrl: data.imageUrl }));
         setMessage("Image uploaded successfully!");
       } else {
-        const error = await response.json();
-        const errorMessage = error.details
-          ? `${error.error}: ${error.details}`
-          : error.error;
+        const errorData = await response.json();
+        const errorMessage = errorData.details
+          ? `${errorData.error}: ${errorData.details}`
+          : errorData.error;
         setMessage(`Upload error: ${errorMessage}`);
       }
-    } catch (error) {
+    } catch {
       setMessage("Error uploading image");
     } finally {
       setIsSaving(false);
@@ -89,10 +89,10 @@ export default function CreateArticleForm() {
           imageUrl: "",
         });
       } else {
-        const error = await response.json();
-        setMessage(`Error: ${error.error}`);
+        const errorData = await response.json();
+        setMessage(`Error: ${errorData.error}`);
       }
-    } catch (error) {
+    } catch {
       setMessage("Error creating article");
     } finally {
       setIsSaving(false);

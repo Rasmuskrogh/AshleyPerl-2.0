@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import styles from "./HomepageEditor.module.css";
 
 interface HomepageContent {
@@ -33,7 +32,7 @@ export default function HomepageEditor() {
       } else {
         setMessage("Failed to load content");
       }
-    } catch (error) {
+    } catch {
       setMessage("Error loading content");
     } finally {
       setIsLoading(false);
@@ -57,10 +56,10 @@ export default function HomepageEditor() {
       if (response.ok) {
         setMessage("Content saved successfully!");
       } else {
-        const error = await response.json();
-        setMessage(`Error: ${error.error}`);
+        const errorData = await response.json();
+        setMessage(`Error: ${errorData.error}`);
       }
-    } catch (error) {
+    } catch {
       setMessage("Error saving content");
     } finally {
       setIsSaving(false);
@@ -90,13 +89,13 @@ export default function HomepageEditor() {
         setContent((prev) => ({ ...prev, imageUrl: data.imageUrl }));
         setMessage("Image uploaded successfully!");
       } else {
-        const error = await response.json();
-        const errorMessage = error.details
-          ? `${error.error}: ${error.details}`
-          : error.error;
+        const errorData = await response.json();
+        const errorMessage = errorData.details
+          ? `${errorData.error}: ${errorData.details}`
+          : errorData.error;
         setMessage(`Upload error: ${errorMessage}`);
       }
-    } catch (error) {
+    } catch {
       setMessage("Error uploading image");
     } finally {
       setIsSaving(false);

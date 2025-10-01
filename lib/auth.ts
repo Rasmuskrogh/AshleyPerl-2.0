@@ -1,6 +1,8 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { compare } from "bcryptjs";
+import type { JWT } from "next-auth/jwt";
+import type { Session, User } from "next-auth";
 import pool from "./database";
 
 export const authOptions = {
@@ -63,7 +65,7 @@ export const authOptions = {
     signIn: "/admin",
   },
   callbacks: {
-    async jwt({ token, user }: any) {
+    async jwt({ token, user }: { token: JWT; user?: User }) {
       if (user) {
         token.role = "admin";
         token.id = user.id;
@@ -71,11 +73,11 @@ export const authOptions = {
       }
       return token;
     },
-    async session({ session, token }: any) {
-      if (token) {
+    async session({ session, token }: { session: Session; token: JWT }) {
+      if (token && session.user) {
         session.user.role = "admin";
-        session.user.id = token.id;
-        session.user.username = token.username;
+        session.user.id = token.id as string;
+        session.user.username = token.username as string;
       }
       return session;
     },

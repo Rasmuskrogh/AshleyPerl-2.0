@@ -33,7 +33,7 @@ export default function DeleteArticlesList() {
       } else {
         setMessage("Failed to load articles");
       }
-    } catch (error) {
+    } catch {
       setMessage("Error loading articles");
     } finally {
       setIsLoading(false);
@@ -69,10 +69,10 @@ export default function DeleteArticlesList() {
         await fetchArticles(); // Refresh the list
         setArticleToDelete(null);
       } else {
-        const error = await response.json();
-        setMessage(`Error: ${error.error}`);
+        const errorData = await response.json();
+        setMessage(`Error: ${errorData.error}`);
       }
-    } catch (error) {
+    } catch {
       setMessage("Error deleting article");
     } finally {
       setIsDeleting(false);
@@ -109,8 +109,8 @@ export default function DeleteArticlesList() {
           <div className={styles.confirmationContent}>
             <h4>Confirm Deletion</h4>
             <p>
-              Are you sure you want to delete the article:{" "}
-              <strong>"{articleToDelete.title}"</strong>?
+              Are you sure you want to delete the article:
+              <strong>&quot;{articleToDelete.title}&quot;</strong>?
             </p>
             <p>This action cannot be undone.</p>
 

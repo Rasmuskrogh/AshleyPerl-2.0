@@ -48,7 +48,7 @@ export default function EditArticlesList() {
       } else {
         setMessage("Failed to load articles");
       }
-    } catch (error) {
+    } catch {
       setMessage("Error loading articles");
     } finally {
       setIsLoading(false);
@@ -109,13 +109,13 @@ export default function EditArticlesList() {
         setFormData((prev) => ({ ...prev, imageUrl: data.imageUrl }));
         setMessage("Image uploaded successfully!");
       } else {
-        const error = await response.json();
-        const errorMessage = error.details
-          ? `${error.error}: ${error.details}`
-          : error.error;
+        const errorData = await response.json();
+        const errorMessage = errorData.details
+          ? `${errorData.error}: ${errorData.details}`
+          : errorData.error;
         setMessage(`Upload error: ${errorMessage}`);
       }
-    } catch (error) {
+    } catch {
       setMessage("Error uploading image");
     } finally {
       setIsSaving(false);
@@ -143,10 +143,10 @@ export default function EditArticlesList() {
         await fetchArticles(); // Refresh the list
         handleCancel();
       } else {
-        const error = await response.json();
-        setMessage(`Error: ${error.error}`);
+        const errorData = await response.json();
+        setMessage(`Error: ${errorData.error}`);
       }
-    } catch (error) {
+    } catch {
       setMessage("Error updating article");
     } finally {
       setIsSaving(false);

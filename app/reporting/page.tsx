@@ -1,4 +1,3 @@
-import Image from "next/image";
 import styles from "./reporting.module.css";
 import { getArticles, getPublications } from "../../lib/getArticles";
 import ReportingClient from "./ReportingClient";

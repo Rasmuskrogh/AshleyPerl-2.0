@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { Metadata } from "next";
 import styles from "./contact.module.css";
 import ContactForm from "@/components/ContactForm/ContactForm";

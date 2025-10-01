@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import styles from "./Admin/LoginForm.module.css";
 import Dashboard from "./Admin/Dashboard";
 import { useInactivityTimeout } from "../hooks/useInactivityTimeout";
@@ -14,7 +13,6 @@ export default function AdminAuth() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showTimeoutWarning, setShowTimeoutWarning] = useState(false);
-  const router = useRouter();
 
   // Set up inactivity timeout (30 minutes with 5 minute warning)
   useInactivityTimeout({
@@ -50,15 +48,11 @@ export default function AdminAuth() {
       if (result?.error) {
         setError("Invalid username or password");
       }
-    } catch (error) {
+    } catch {
       setError("An error occurred. Please try again.");
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const handleLogout = () => {
-    signOut({ callbackUrl: "/admin" });
   };
 
   const handleStayLoggedIn = () => {
