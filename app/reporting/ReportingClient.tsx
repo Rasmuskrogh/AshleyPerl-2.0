@@ -34,10 +34,10 @@ export default function ReportingClient() {
     const fetchData = async () => {
       try {
         const [articlesRes, publicationsRes] = await Promise.all([
-          fetch('/api/articles'),
-          fetch('/api/publications')
+          fetch("/api/articles"),
+          fetch("/api/publications"),
         ]);
-        
+
         if (articlesRes.ok && publicationsRes.ok) {
           const articlesData = await articlesRes.json();
           const publicationsData = await publicationsRes.json();
@@ -45,7 +45,7 @@ export default function ReportingClient() {
           setPublications(publicationsData);
         }
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       } finally {
         setIsLoading(false);
       }
@@ -63,7 +63,7 @@ export default function ReportingClient() {
 
   if (isLoading) {
     return (
-      <div style={{ textAlign: 'center', padding: '2rem' }}>
+      <div style={{ textAlign: "center", padding: "2rem" }}>
         <p>Loading articles...</p>
       </div>
     );

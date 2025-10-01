@@ -2,7 +2,7 @@ import styles from "./reporting.module.css";
 import ReportingClient from "./ReportingClient";
 
 // Force dynamic rendering
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export default function Reporting() {
   return (
