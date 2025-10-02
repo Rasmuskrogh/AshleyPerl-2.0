@@ -110,9 +110,9 @@
 
 .figureSection > img {
   display: block;
-  height: 80%;
+  height: auto;
   margin-left: auto;
-  object-fit: cover;
+  object-fit: contain;
   overflow: hidden;
   width: 100%;
 }
@@ -126,5 +126,12 @@
   }
   .figureSection {
     width: 100%;
+    padding: 0 8rem;
+  }
+}
+
+@media (width < 760px) {
+  .figureSection {
+    padding: 0;
   }
 }
