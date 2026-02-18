@@ -1,41 +1,83 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
+import { validateContactForm } from "@/lib/contactValidation";
+
+const RATE_LIMIT_MS = 60 * 1000; // 1 minut mellan förfrågningar per IP
+const rateLimitMap = new Map<string, number>();
+
+function getClientIp(req: Request): string {
+  const forwarded = req.headers.get("x-forwarded-for");
+  if (forwarded) {
+    return forwarded.split(",")[0].trim();
+  }
+  return req.headers.get("x-real-ip") ?? "unknown";
+}
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const last = rateLimitMap.get(ip);
+  if (last != null && now - last < RATE_LIMIT_MS) {
+    return true;
+  }
+  rateLimitMap.set(ip, now);
+  return false;
+}
 
 export async function POST(req: Request) {
   try {
-    console.log(process.env.EMAIL_USER);
-    const { name, email, message } = await req.json();
+    const ip = getClientIp(req);
+    if (isRateLimited(ip)) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Du kan skicka ett nytt meddelande om en minut. Tack för din förståelse.",
+        },
+        { status: 429 }
+      );
+    }
 
-    // Konfigurera nodemailer-transportören
+    const body = await req.json();
+    const { name, email, message, website } = body;
+
+    const validationError = validateContactForm({
+      name: name ?? "",
+      email: email ?? "",
+      message: message ?? "",
+      website,
+    });
+    if (validationError) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Kunde inte skicka. Kontrollera att alla fält är ifyllda korrekt.",
+        },
+        { status: 400 }
+      );
+    }
+
     const transporter = nodemailer.createTransport({
-      service: "gmail", // Ändra om du använder en annan leverantör
+      service: "gmail",
       auth: {
-        user: process.env.EMAIL_USER, // Din e-postadress
-        pass: process.env.EMAIL_PASS, // Använd ett app-lösenord om du använder Gmail
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
       },
       tls: {
-        rejectUnauthorized:
-          process.env.NODE_ENV === "development" ? false : true,
+        rejectUnauthorized: process.env.NODE_ENV === "development" ? false : true,
       },
     });
 
-    // Konfigurera e-postmeddelandet
     const mailOptions = {
-      from: email,
-      to: process.env.EMAIL_USER, // Din egen e-postadress
-      subject: `Nytt meddelande från ${name}`,
-      text: `Namn: ${name}\nE-post: ${email}\n\nMeddelande:\n${message}`,
+      from: (email as string).trim(),
+      to: process.env.EMAIL_USER,
+      subject: `Nytt meddelande från ${(name as string).trim()}`,
+      text: `Namn: ${(name as string).trim()}\nE-post: ${(email as string).trim()}\n\nMeddelande:\n${(message as string).trim()}`,
     };
 
-    // Skicka e-post
     await transporter.sendMail(mailOptions);
 
     return NextResponse.json({ success: true, message: "E-post skickad!" });
   } catch (error) {
     console.error("E-postfel:", error);
-    return NextResponse.json(
-      { success: false, message: "Misslyckades att skicka e-post." },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, message: "Misslyckades att skicka e-post." }, { status: 500 });
   }
 }

@@ -4,7 +4,7 @@ import styles from "./Footer.module.css";
 export default function Footer() {
   return (
     <footer className={styles.footer}>
-      <p> &copy; Ashley Perl 2025</p>
+      <p> &copy; Ashley Perl 2026</p>
       <div className={styles.footerLinks}>
         <a
           href="https://www.linkedin.com/in/ashleyperl/"

@@ -10,7 +10,9 @@ export async function sendEmail(data: EmailData) {
   });
 
   if (!response.ok) {
-    throw new Error("Failed to send email");
+    const body = await response.json().catch(() => ({}));
+    const message = typeof body?.message === "string" ? body.message : "Kunde inte skicka meddelandet.";
+    throw new Error(message);
   }
 
   return response.json();
