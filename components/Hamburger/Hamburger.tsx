@@ -8,7 +8,7 @@ interface HamburgerProps {
 
 export default function Hamburger({ isOpen }: HamburgerProps) {
   return (
-    <div className={styles.hamburger}>
+    <div className={isOpen ? `${styles.hamburger} ${styles.hamburgerOpen}` : styles.hamburger}>
       <div
         className={
           !isOpen ? styles.burger : `${styles.burger} ${styles.burger1}`

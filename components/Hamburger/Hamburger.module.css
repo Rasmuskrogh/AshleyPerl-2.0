@@ -5,6 +5,12 @@
   justify-content: space-around;
   flex-flow: column nowrap;
   z-index: 10;
+  margin: 1rem 1rem 0 0;
+  transition: margin 0.3s linear;
+}
+
+.hamburgerOpen {
+  margin-right: 1.5rem;
 }
 
 .burger {
